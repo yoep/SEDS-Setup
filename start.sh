@@ -21,7 +21,7 @@ case "$1" in
                 unzip client/Tools/DedicatedServer.zip
                 cd config/Saves/SEDSWorld
                 echo "Cleaning world of dead NPC entries - Credits to Andy_S of #space-engineers"
-                wget -q -O ../../worldcleaner.py <LINK SOON>
+                wget -q -O ../../worldcleaner.py https://github.com/deltaflyer4747/SE_Cleaner/raw/master/clean.py
                 python ../../worldcleaner.py
 
                 #start the DS
