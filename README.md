@@ -1,6 +1,6 @@
 # SEDS-Setup
 
-Script for starting and configuring a Space Engineers server on a (optionally headless) Linux machine.
+Script for starting and configuring a Space Engineers server on a optionally headless Linux machine.
 
 Report issues on the issues page. MAKE SURE YOU LOOK THROUGH THEM FIRST. Someone's probably already posted a solution.
 
@@ -18,7 +18,7 @@ The script is hardcoded to put your server in ~/spaceengineers. If you want to c
 
 ###Step two: Check your wine version.
 
-Run <code>wine --version</code> and also check if you have winetricks installed. (Run <code>which winetricks</code>)
+Run <code>wine --version</code> and also check if you have winetricks installed. Run <code>which winetricks</code>
 
 If your wine version is not 1.7.30 or higher the script will not run and I will close any issue tickets you make until you upgrade.
 
@@ -40,7 +40,7 @@ Your configuration needs to go in <code>~/spaceengineers/config/SpaceEngineers-D
 
 Alternatively you can just put the SpaceEngineers-Dedicated.cfg on the server, and have the server generate a world.
 
-This should get you off the ground. I won't tell you how to make the configurations here, but there are numerous forum posts on the matter. [Here's one you can use.](<http://forums.keenswh.com/post/tutorial-dedicated-server-on-ubuntu-13-10-using-wine-6922069>)
+This should get you off the ground. I won't tell you how to make the configurations here, but there are numerous forum posts on the matter. [Here's one you can use.]<http://forums.keenswh.com/post/tutorial-dedicated-server-on-ubuntu-13-10-using-wine-6922069>
 Hint: it involves running the dedicated server on your computer, generating a configuration using their program, and uploading it with some minor changes.
 
 ###A note on changing server settings once you have a world made.
@@ -50,7 +50,7 @@ Now, run <code>./start.sh</code>, <code>screen -x spaceengineers</code>, and enj
 
 ###Automated World Backups using crontab
 Add the following line in your crontab file:
-<pre><code>*/(A NUMBER) * * * * /home/(YOUR USEvRNAME)/spaceengineers/start.sh backupworld</code></pre>
+<pre><code>*/A NUMBER * * * * /home/YOUR USEvRNAME/spaceengineers/start.sh backupworld</code></pre>
 The number means that every that many minutes that go by, run the script.
 
 Credits to Andy_S and NolanSyKinsley of the #space-engineers IRC channel on Esper for their tidbits, and Andy_S's NPC identity cleaner.
