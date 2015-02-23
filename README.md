@@ -28,7 +28,7 @@ If your wine version is not 1.7.30 or higher the script will not run and I will 
 chmod +x start.sh
 ./start.sh setup</pre></code>
 
-It'll ask you for your Steam user and password. Not to worry, your password is NOT saved anywhere on disk. (Your username is used at server start to check for updates, and is stored in plaintext at ~/spaceengineers/Steamcmd/.steamuser )
+It'll ask you for your Steam user and password. Not to worry, your password is NOT saved anywhere on disk. Your username is used at server start to check for updates, and is stored in plaintext at ~/spaceengineers/Steamcmd/.steamuser
 
 It'll probably ask for you to download some links and put them in a folder. You may have to run the script twice.
 
