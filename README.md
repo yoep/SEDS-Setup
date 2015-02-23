@@ -7,14 +7,14 @@ It's a bash script for starting and configuring a Space Engineers server on a op
 
 <h2>Requirements</h2>
 
-A Debian or Ubuntu-based OS (Others untested, use at own risk, <a href="https://github.com/ArghArgh200/SEDS-Setup/issues">report success/failures/tweaks to issues</a>)
-A recent version of bash
+<code>A Debian or Ubuntu-based OS (Others untested, use at own risk, <a href="https://github.com/ArghArgh200/SEDS-Setup/issues">report success/failures/tweaks to issues</a>)
+bash
 WINE 1.7.30 or higher
-WineTricks
-Python 2.7 or higher
-<code>unzip</code>
-<code>wget</code>
-<code>screen</code>
+winetricks
+python-2.7
+unzip
+wget
+screen</code>
 
 <h2>Usage</h2>
 
