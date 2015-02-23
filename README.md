@@ -11,9 +11,10 @@ Report issues on the issues page. MAKE SURE YOU LOOK THROUGH THEM FIRST. Someone
 
 <pre><code>mkdir ~/spaceengineers
 cd ~/spaceengineers
-wget -O start.sh [https://github.com/ArghArgh200/SEDS-Setup/raw/master/start.sh](<https://github.com/ArghArgh200/SEDS-Setup/raw/master/start.sh>)</pre></code>
+wget -O start.sh link-to-start.sh
+chmod +x start.sh</pre></code>
 
-The script is hardcoded to put your server in ~/spaceengineers. If you want to make it less... hardcoded feel free to do so and share it back with me.
+The script is hardcoded to put your server in ~/spaceengineers. If you want to change that... good luck.
 
 ###Step two: Check your wine version.
 
@@ -49,7 +50,7 @@ Now, run <code>./start.sh</code>, <code>screen -x spaceengineers</code>, and enj
 
 ###Automated World Backups using crontab
 Add the following line in your crontab file:
-<pre><code>*/A NUMBER * * * * /home/YOUR USERNAME/spaceengineers/start.sh backupworld</code></pre>
+<pre><code>*/(A NUMBER) * * * * /home/(YOUR USERNAME)/spaceengineers/start.sh backupworld</code></pre>
 The number means that every that many minutes that go by, run the script.
 
 Credits to Andy_S and NolanSyKinsley of the #space-engineers IRC channel on Esper for their tidbits, and Andy_S's NPC identity cleaner.
