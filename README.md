@@ -50,7 +50,7 @@ Now, run <code>./start.sh</code>, <code>screen -x spaceengineers</code>, and enj
 
 ###Automated World Backups using crontab
 Add the following line in your crontab file:
-<pre><code>*/(A NUMBER) * * * * /home/(YOUR USERNAME)/spaceengineers/start.sh backupworld</code></pre>
+<pre><code>*/(A NUMBER) * * * * /home/(YOUR USEvRNAME)/spaceengineers/start.sh backupworld</code></pre>
 The number means that every that many minutes that go by, run the script.
 
 Credits to Andy_S and NolanSyKinsley of the #space-engineers IRC channel on Esper for their tidbits, and Andy_S's NPC identity cleaner.
