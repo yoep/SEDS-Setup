@@ -8,19 +8,12 @@ It's a bash script for starting and configuring a Space Engineers server on a op
 <h2>Requirements</h2>
 
 A Debian or Ubuntu-based OS (Others untested, use at own risk, <a href="https://github.com/ArghArgh200/SEDS-Setup/issues">report success/failures/tweaks to issues</a>)
-
 A recent version of bash
-
 WINE 1.7.30 or higher
-
 WineTricks
-
 Python 2.7 or higher
-
 <code>unzip</code>
-
 <code>wget</code>
-
 <code>screen</code>
 
 <h2>Usage</h2>
@@ -63,6 +56,11 @@ Now, run <code>./start.sh</code>, <code>screen -x spaceengineers</code>, and enj
 <h3>Automated World Backups using crontab</h3>
 Add the following line in your crontab file:
 <pre><code>*/A NUMBER * * * * /home/YOUR USERNAME/spaceengineers/start.sh backupworld</code></pre>
-The number means that every that many minutes that go by, run the script.
+The number means that every that many minutes that go by, backup the world.
 
-Credits to Andy_S and NolanSyKinsley of the space-engineers IRC channel on Esper for their tidbits, and Andy_S's NPC identity cleaner.
+<h2>Planned features</h2>
+Restarting the server safely every day
+
+Completely clear installation every week/month, and reinstall, this can be done already by manually removing all but the .cfg, the world, and the script and running <code>./start.sh setup</code> again.
+
+Credits to Andy_S and NolanSyKinsley of the space-engineers IRC channel on Esper for their tidbits, and <a href="http://forums.keenswh.com/post/7308307">Andy_S's NPC identity cleaner</a>.
