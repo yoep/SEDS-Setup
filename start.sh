@@ -62,7 +62,6 @@ case "$1" in
                 WINEDEBUG=-all WINEARCH=win32 winecfg > /dev/null
                 WINEDEBUG=-all winetricks -q msxml3 > /dev/null
                 WINEDEBUG=-all winetricks -q dotnet40 > /dev/null
-                wget -q -O $HOME/.wine/drive_c/windows/system32/oleaut32.dll http://pitchblack.arghlex.net/oleaut32.dll
                 ln -s $HOME/spaceengineers $HOME/.wine/drive_c/users/$whoami/Desktop/spaceengineers
                 ln -s $HOME/spaceengineers/config $HOME/.wine/drive_c/users/$whoami/Application\ Data/SpaceEngineersDedicated
                 echo "Initial setup complete."
