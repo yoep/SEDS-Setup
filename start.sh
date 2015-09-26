@@ -11,14 +11,11 @@ case "$1" in
         start)
                 #login to steam and fetch the latest gamefiles
                 cd $HOME/spaceengineers
-                steamuser=`cat $HOME/spaceengineers/Steamcmd/.steamuser`
                 cd Steamcmd
-                WINEDEBUG=-all wine steamcmd.exe +force_install_dir C:\\users\\$whoami\\Desktop\\spaceengineers\\client +login $steamuser +app_update 244850 -verify +quit
+                ./steamcmd.sh +force_install_dir $HOME/.wine/drive_c/users/$whoami/Desktop/spaceengineers +login anonymous +app_update 298740 -verify +quit
                 cd ..
 
                 #clear old binaries and get new ones
-                rm -rf DedicatedServer DedicatedServer64 Content
-                unzip client/Tools/DedicatedServer.zip
                 cd config/Saves/SEDSWorld
                 echo "Cleaning world of dead NPC entries - Credits to Andy_S of #space-engineers"
                 wget -q -O ../../worldcleaner.py https://github.com/deltaflyer4747/SE_Cleaner/raw/master/clean.py
@@ -53,8 +50,8 @@ case "$1" in
                 mkdir -p $HOME/spaceengineers/Steamcmd
                 cd $HOME/spaceengineers/Steamcmd
                 echo "Downloading SteamCMD"
-                wget -q -O steamcmd.zip http://media.steampowered.com/installer/steamcmd.zip
-                unzip steamcmd.zip >/dev/null
+                wget -q -O steamcmd_linux.tar.gz https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
+                tar -xzf steamcmd_linux.tar.gz
 
                 #configure our wine directory and make some symlinks
                 cd $HOME
@@ -66,18 +63,13 @@ case "$1" in
                 ln -s $HOME/spaceengineers/config $HOME/.wine/drive_c/users/$whoami/Application\ Data/SpaceEngineersDedicated
                 echo "Initial setup complete."
 
-                #login to steam for the first time, and allow steamcmd to run itself
-                echo "We'll now try and run steamcmd. In order to install the DS, you need to have a steam account with the game purchased and activated."
-                echo "Steam username:"
-                read steamuser
-                echo $steamuser > $HOME/spaceengineers/Steamcmd/.steamuser
-                echo "Steam password (Not stored, if you have steamguard enabled like a smart person, go get the code when it asks for one.):"
-                read steampass
+                #install and update steamcmd
+                echo "Installing and updating SteamCMD"
                 #run twice because the first time we need to make steamcmd download its files before attempting a login
                 cd $HOME/spaceengineers/Steamcmd/
-                WINEDEBUG=-all wine steamcmd.exe +exit
-                WINEDEBUG=-all wine steamcmd.exe +login $steamuser $steampass +exit
-                echo "Setup complete. Please place your server's .cfg file in ~/spaceengineers/config/SpaceEngineers-Dedicated.cfg.  You'll need to edit it and change the <LoadWorld /> part to read: <LoadWorld>C:\users\$whoami\Application Data\SpaceEngineersDedicated\Saves\SEDSWorld</LoadWorld>."
+                ./steamcmd.sh +exit
+                ./steamcmd.sh +login anonymous +exit
+                echo "Setup complete. Please place your server's .cfg file in ~/spaceengineers/config/SpaceEngineers-Dedicated.cfg.  You'll need to edit it and change the <LoadWorld /> part to read: <LoadWorld>C:\users\\$whoami\Application Data\SpaceEngineersDedicated\Saves\SEDSWorld</LoadWorld>."
         ;;
         backupworld) #put an entry in your crontab pointing to this script with the first argument being 'backupworld'.
                 logstampworld=`date +%s`
