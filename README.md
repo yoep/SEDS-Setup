@@ -34,12 +34,11 @@ If your wine version is not 1.7.30 or higher the script will not work properly a
 <pre><code>cd ~/spaceengineers
 chmod +x start.sh
 ./start.sh setup</code></pre>
-It'll ask you for your Steam user and password. Not to worry, your password is NOT saved anywhere on disk by my script. Your username is used at server start to check for updates, and is stored in plaintext at ~/spaceengineers/Steamcmd/.steamuser
 
 <h3>Step four: Upload your configuration and start the server.</h3>
 This is probably the most important part, and also the part where most of the stuff that can go wrong goes wrong.
 
-Your configuration needs to go in <code>~/spaceengineers/config/SpaceEngineers-Dedicated.cfg</code>, your world in <code>~/spaceengineers/config/Saves/SEDSWorld</code>, and your configuration's LoadWorld directive should point to C:\users\<your username>\Application Data\SpaceEngineersDedicated\Saves\SEDSWorld</code> in order for the server to Start right.
+Your configuration needs to go in <code>~/spaceengineers/config/SpaceEngineers-Dedicated.cfg</code>, your world in <code>~/spaceengineers/config/Saves/SEDSWorld</code>, and your configuration's LoadWorld directive should point to <code>C:\users\<your username>\Application Data\SpaceEngineersDedicated\Saves\SEDSWorld</code> in order for the server to Start right.
 
 
 Alternatively you can just put the SpaceEngineers-Dedicated.cfg on the server, and have the server generate a world.
