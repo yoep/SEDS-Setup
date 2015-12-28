@@ -9,7 +9,7 @@ It's a bash script for starting and configuring a Space Engineers server on a op
 
 <pre>A Debian or Ubuntu-based OS (Others untested, use at own risk, <a href="https://github.com/ArghArgh200/SEDS-Setup/issues">report success/failures/tweaks to issues</a>)
 bash
-WINE 1.7.30 or higher (32 bits, 64 won't work)
+WINE 1.7.30 or higher - ***64-bit OSes will need to use 32-bit WINE!*** .NET 4 is not supported under WINE... yet.
 winetricks
 python-2.7
 unzip
