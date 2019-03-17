@@ -17,34 +17,33 @@ SEDS-Setup a bash script for starting and configuring a Space Engineers Dedicate
 
 ## Usage
 
-### Step one: Download the script.
+### Step one: Download the script
 
 	mkdir ~/spaceengineers
 	cd ~/spaceengineers
 	wget -O start.sh https://raw.githubusercontent.com/yoep/SEDS-Setup/master/start.sh
 	chmod +x start.sh
-	
-The script is hardcoded to put your server in ~/spaceengineers.
 
-### Step two: Check your wine version.
-Run *wine --version* and also check if you have winetricks installed by running *which winetricks*
+### Step two: Edit script configuration
 
-If your wine version is not 4.0 or higher the script will not work properly and I will absolutely refuse to help you.
+Edit "start.sh" with an editor
+        
+    nano start.sh
+
+Only edit the information below the "EDIT CONFIG SETTINGS BELOW" section.
 
 ### Step three: Run the script's setup function
 
-	cd ~/spaceengineers
 	chmod +x start.sh
 	./start.sh setup
 
 ### Step four: Upload your configuration and start the server.
+
 This is probably the most important part, and also the part where most of the stuff that can go wrong goes wrong.
 
-Your configuration needs to go in *~/spaceengineers/config/SpaceEngineers-Dedicated.cfg*, your world in *~/spaceengineers/config/Saves/SEDSWorld*, and your configuration's LoadWorld directive should point to *C:\users\<your username>\Application Data\SpaceEngineersDedicated\Saves\SEDSWorld* in order for the server to Start right.
-
+Your configuration needs to go in *{install_location}/config/SpaceEngineers-Dedicated.cfg*, your world in *{install_location}/config/Saves/SEDSWorld*, and your configuration's LoadWorld directive should point to *C:\users\<your username>\Application Data\SpaceEngineersDedicated\Saves\SEDSWorld* in order for the server to Start right.
 
 Alternatively you can just put the SpaceEngineers-Dedicated.cfg on the server, and have the server generate a world.
-
 
 This should get you off the ground. I won't tell you how to make the configurations here, but there are numerous forum posts on the matter. [Here's one you can use](<http://forums.keenswh.com/post/6922069>). Hint: it involves running the dedicated server on your computer, generating a configuration using their program, and uploading it with some minor changes.
 
