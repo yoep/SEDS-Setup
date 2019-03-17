@@ -40,7 +40,7 @@ Only edit the information below the "EDIT CONFIG SETTINGS BELOW" section.
 
 This is probably the most important part, and also the part where most of the stuff that can go wrong goes wrong.
 
-##### Place the configuration and world in the following locations:
+#### Place the configuration and world in the following locations:
 
 **Server Configuration**
 
@@ -50,7 +50,7 @@ This is probably the most important part, and also the part where most of the st
 
     {install_location}/config/Saves/{world_name}
 
-##### Now edit the server configuration file and make the following changes:
+#### Now edit the server configuration file and make the following changes:
 
 Update `<LoadWorld>` option so it points to the following directory
 

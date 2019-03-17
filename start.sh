@@ -4,6 +4,7 @@
 # **************************
 # Installation config
 install_location=/opt/space_engineers
+world_name=TFoS
 # Wine config
 wine_location=${install_location}/.wine64
 # Screen config
@@ -143,6 +144,10 @@ case "$1" in
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dotnet461 &> /dev/null & show_spinner "Installing .NET Framework" $!
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q corefonts &> /dev/null & show_spinner "Installing COREFONTS" $!
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q gdiplus &> /dev/null & show_spinner "Installing GDIPLUS" $!
+                # The IP binding seems to go wrong sometimes with the default installed winhttp lib from wine
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q winhttp &> /dev/null & show_spinner "Installing WINHTTP" $!
+#                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dxvk96 &> /dev/null & show_spinner "Installing DXVK" $!
+#                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q vulkanrt &> /dev/null & show_spinner "Installing VULKANRT" $!
                 ln -s ${install_location} ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers
                 ln -s ${install_location}/config ${wine_location}/drive_c/users/${whoami}/Application\ Data/SpaceEngineersDedicated
                 echo "Initial setup complete"
@@ -158,7 +163,7 @@ case "$1" in
         backupworld) #put an entry in your crontab pointing to this script with the first argument being 'backupworld'.
                 logstampworld=`date +%s`
                 cd ${install_location}/config
-                cp -rf Saves/SEDSWorld backups/world-$logstampworld
+                cp -rf Saves/${world_name} backups/world-$logstampworld
         ;;
         *)
                 if ps ax | grep -v grep | grep $procname > /dev/null
