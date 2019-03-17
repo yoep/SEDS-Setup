@@ -40,11 +40,26 @@ Only edit the information below the "EDIT CONFIG SETTINGS BELOW" section.
 
 This is probably the most important part, and also the part where most of the stuff that can go wrong goes wrong.
 
-Your configuration needs to go in *{install_location}/config/SpaceEngineers-Dedicated.cfg*, your world in *{install_location}/config/Saves/SEDSWorld*, and your configuration's LoadWorld directive should point to *C:\users\<your username>\Application Data\SpaceEngineersDedicated\Saves\SEDSWorld* in order for the server to Start right.
+##### Place the configuration and world in the following locations:
 
-Alternatively you can just put the SpaceEngineers-Dedicated.cfg on the server, and have the server generate a world.
+**Server Configuration**
 
-This should get you off the ground. I won't tell you how to make the configurations here, but there are numerous forum posts on the matter. [Here's one you can use](<http://forums.keenswh.com/post/6922069>). Hint: it involves running the dedicated server on your computer, generating a configuration using their program, and uploading it with some minor changes.
+    {install_location}/config/SpaceEngineers-Dedicated.cfg
+
+**World save**
+
+    {install_location}/config/Saves/{world_name}
+
+##### Now edit the server configuration file and make the following changes:
+
+Update `<LoadWorld>` option so it points to the following directory
+
+    <LoadWorld>C:\users\<your username>\Application Data\SpaceEngineersDedicated\Saves\{world_name}</LoadWorld>
+    
+Edit the `<IP>` to the IP address of your server.
+(There is currently an issue with the DHCP auto assigning of the IP address in Wine 4.0 which will crash the dedicated server)
+
+    <IP>XXX.XXX.XXX.XXX</IP>
 
 ### A note on changing server settings once you have a world made.
 
