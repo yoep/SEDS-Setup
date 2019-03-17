@@ -15,7 +15,7 @@ procname=SpaceEngineersDedicated.exe
 WINEDEBUG=-all
 whoami=`whoami` #but who AM I, really?
 
-create_install_dir() {
+create_install_dir () {
     if [[ ! -d "${install_location}" ]]
     then
         echo "Creating installation directory ${install_location}..."
@@ -25,22 +25,23 @@ create_install_dir() {
     fi
 }
 
-is_wine_version_ok() {
-    wine_version=`get_wine_version`
+is_wine_version_ok () {
+    wine_version=$(get_wine_version)
     echo $"Found wine version ${wine_version}"
-    wine_major_version="${wine_version:0:1}";
-    result=false
+    numeric_wine_version="${wine_version//.}";
+    result=1
 
-    if [[ ${wine_major_version} = "4" ]]
+    if [[ ${numeric_wine_version} -ge 40 ]]
     then
-        result=true
+        result=0
     fi
 
-    return result
+    return ${result}
 }
 
-get_wine_version() {
-    return $"{`wine64 --version`/wine-/}"
+get_wine_version () {
+    local wine_version=$(wine64 --version)
+    echo "${wine_version//wine-}"
 }
 
 # Create installation directory and navigate to it
@@ -49,7 +50,7 @@ cd ${install_location}
 
 # Check wine version
 if ! is_wine_version_ok ; then
-    echo "ERROR: Wine version `get_wine_version` is not 4.0 or newer"
+    echo "ERROR: Wine version $(get_wine_version) is not 4.0 or newer"
     exit 1
 fi
 
