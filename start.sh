@@ -15,6 +15,34 @@ procname=SpaceEngineersDedicated.exe
 WINEDEBUG=-all
 whoami=`whoami` #but who AM I, really?
 
+create_install_dir() {
+    if [[ ! -d "${install_location}" ]]
+    then
+        echo "Creating installation directory ${install_location}..."
+        sudo mkdir ${install_location}
+        sudo chown -R ${whoami} ${install_location}
+        echo "Done creating installation directory"
+    fi
+}
+
+is_wine_version_ok() {
+    wine_version=`get_wine_version`
+    echo $"Found wine version ${wine_version}"
+    wine_major_version="${wine_version:0:1}";
+    result=false
+
+    if [[ ${wine_major_version} = "4" ]]
+    then
+        result=true
+    fi
+
+    return result
+}
+
+get_wine_version() {
+    return $"{`wine64 --version`/wine-/}"
+}
+
 # Create installation directory and navigate to it
 create_install_dir
 cd ${install_location}
@@ -100,31 +128,3 @@ case "$1" in
                 fi
         ;;
 esac
-
-create_install_dir() {
-    if [[ ! -d "${install_location}" ]]
-    then
-        echo "Creating installation directory ${install_location}..."
-        sudo mkdir ${install_location}
-        sudo chown -R ${whoami} ${install_location}
-        echo "Done creating installation directory"
-    fi
-}
-
-is_wine_version_ok() {
-    wine_version=`get_wine_version`
-    echo $"Found wine version ${wine_version}"
-    wine_major_version="${wine_version:0:1}";
-    result=false
-
-    if [[ ${wine_major_version} = "4" ]]
-    then
-        result=true
-    fi
-
-    return result
-}
-
-get_wine_version() {
-    return $"{`wine64 --version`/wine-/}"
-}

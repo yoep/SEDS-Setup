@@ -19,8 +19,6 @@ SEDS-Setup a bash script for starting and configuring a Space Engineers Dedicate
 
 ### Step one: Download the script
 
-	mkdir ~/spaceengineers
-	cd ~/spaceengineers
 	wget -O start.sh https://raw.githubusercontent.com/yoep/SEDS-Setup/master/start.sh
 	chmod +x start.sh
 
