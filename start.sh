@@ -29,19 +29,35 @@ is_wine_version_ok () {
     wine_version=$(get_wine_version)
     echo $"Found wine version ${wine_version}"
     numeric_wine_version="${wine_version//.}";
-    result=1
 
     if [[ ${numeric_wine_version} -ge 40 ]]
     then
-        result=0
+        return 0
     fi
 
-    return ${result}
+    return 1
+}
+
+is_winetricks_version_ok () {
+    winetricks_version=$(get_winetricks_version)
+    echo "Found winetricks version ${winetricks_version}"
+
+    if [[ ${winetricks_version} -ge 20190310 ]]
+    then
+        return 0
+    fi
+
+    return 1
 }
 
 get_wine_version () {
     local wine_version=$(wine64 --version)
     echo "${wine_version//wine-}"
+}
+
+get_winetricks_version () {
+    local winetricks_version=$(winetricks --version)
+    echo "${winetricks_version:0:8}"
 }
 
 # Create installation directory and navigate to it
@@ -51,6 +67,12 @@ cd ${install_location}
 # Check wine version
 if ! is_wine_version_ok ; then
     echo "ERROR: Wine version $(get_wine_version) is not 4.0 or newer"
+    exit 1
+fi
+
+# Check winetricks version
+if ! is_winetricks_version_ok ; then
+    echo "ERROR: Winetricks version $(get_winetricks_version) is not 20190310 or newer"
     exit 1
 fi
 
