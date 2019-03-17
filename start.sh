@@ -12,7 +12,6 @@ wine_location=${install_location}/.wine64
 # ***************************
 service=spaceengineers
 procname=SpaceEngineersDedicated.exe
-WINEDEBUG=-all
 whoami=`whoami` #but who AM I, really?
 
 create_install_dir () {
@@ -22,6 +21,15 @@ create_install_dir () {
         sudo mkdir ${install_location}
         sudo chown -R ${whoami} ${install_location}
         echo "Done creating installation directory"
+    fi
+}
+
+create_dir () {
+    local dir=$1
+    if [[ ! -d "${dir}" ]]
+    then
+        echo "Creating directory ${dir}..."
+        mkdir ${dir}
     fi
 }
 
@@ -60,6 +68,20 @@ get_winetricks_version () {
     echo "${winetricks_version:0:8}"
 }
 
+show_spinner() {
+    spin='-\|/'
+    i=0
+    while kill -0 $2 2> /dev/null
+    do
+      i=$(( (i+1) %4 ))
+      printf "\r$1 ${spin:$i:1}"
+      sleep .1
+    done
+
+    echo -en "\r$1 done"
+    echo ""
+}
+
 # Create installation directory and navigate to it
 create_install_dir
 cd ${install_location}
@@ -94,20 +116,18 @@ case "$1" in
                 cp -rf Saves/SEDSWorld backups/world-$logstamper-svhalt
         ;;
         setup)  #run only once.
-                echo "Press enter to confirm complete wipe of your WINE's configuration directory. If you have installed anything under regular WINE and want to keep it, press Ctrl-C now!"
+                echo "Press enter to confirm complete wipe of ${install_location}. If you have installed anything under the install directory and want to keep it, press Ctrl-C now!"
                 read things
                 echo "ARE YOU SURE?"
                 read things
-                echo "ARE YOU REALLY SURE?"
-                read things
-                echo "Wiping WINE installation."
-                rm -rf ${wine_location}
+                echo "Wiping ${install_location}"
+                rm -rf ${install_location}/*
 
                 #grab steamcmd, make some directories.
-                mkdir ${install_location}/config
-                mkdir ${install_location}/client
-                mkdir ${install_location}/config/backups
-                mkdir ${install_location}/config/logs
+                create_dir ${install_location}/config
+                create_dir ${install_location}/client
+                create_dir ${install_location}/config/backups
+                create_dir ${install_location}/config/logs
                 rm -rf ${install_location}/Steamcmd
                 mkdir -p ${install_location}/Steamcmd
                 cd ${install_location}/Steamcmd
@@ -117,12 +137,12 @@ case "$1" in
 
                 #configure our wine directory and make some symlinks
                 cd ${install_location}
-                echo "Configuring WINE and installing dependencies."
-                WINEDEBUG=-all WINEARCH=win64 winecfg > /dev/null
-                WINEDEBUG=-all winetricks -q msxml3 > /dev/null
-                WINEDEBUG=-all winetricks -q dotnet461 > /dev/null
-                WINEDEBUG=-all winetricks -q corefonts > /dev/null
-                WINEDEBUG=-all winetricks -q gdiplus > /dev/null
+                echo "Configuring WINE and installing dependencies..."
+                WINEDEBUG=-all WINEPREFIX=${wine_location} WINEARCH=win64 winecfg &> /dev/null & show_spinner "Setting up WINE" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q msxml3 &> /dev/null & show_spinner "Configuring MSXML3" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dotnet461 &> /dev/null & show_spinner "Configuring .NET Framework" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q corefonts &> /dev/null & show_spinner "Configuring COREFONTS" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q gdiplus &> /dev/null & show_spinner "Configuring GDIPLUS" $!
                 ln -s ${install_location} ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers
                 ln -s ${install_location}/config ${wine_location}/drive_c/users/${whoami}/Application\ Data/SpaceEngineersDedicated
                 echo "Initial setup complete."
