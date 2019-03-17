@@ -12,6 +12,7 @@ SEDS-Setup a bash script for starting and configuring a Space Engineers Dedicate
     wine (4.0+)
     winetricks (20190310 or newer)
     cabextract
+    winbind
     wget
     screen
 

@@ -6,11 +6,12 @@
 install_location=/opt/space_engineers
 # Wine config
 wine_location=${install_location}/.wine64
+# Screen config
+screen_name=space_engineers
 
 # ***************************
 # DO NOT EDIT BELOW THIS LINE
 # ***************************
-service=spaceengineers
 procname=SpaceEngineersDedicated.exe
 whoami=`whoami` #but who AM I, really?
 
@@ -106,14 +107,13 @@ case "$1" in
                 cd ..
 
                 #start the DS
-                cd ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers/DedicatedServer
-                WINEDEBUG=-all wine64 SpaceEngineersDedicated.exe -console
-                logstamper=`date +%s`
-
-                #copy server world and log to backups and logs directories
-                cd ../config
-                mv SpaceEngineersDedicated.log logs/server-$logstamper.log
-                cp -rf Saves/SEDSWorld backups/world-$logstamper-svhalt
+                log_location=${install_location}/config/logs/server-$(date +%s).log
+                cd ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers/DedicatedServer64
+                echo "Starting SpaceEngineersDedicated..."
+                echo "Check log ${log_location} for more info"
+                # Show the log in the console + log it immediately to a file
+                WINEPREFIX=${wine_location} wine64 SpaceEngineersDedicated.exe -console | tee ${log_location}
+                echo "Server has been stopped"
         ;;
         setup)  #run only once.
                 echo "Press enter to confirm complete wipe of ${install_location}. If you have installed anything under the install directory and want to keep it, press Ctrl-C now!"
@@ -138,14 +138,14 @@ case "$1" in
                 #configure our wine directory and make some symlinks
                 cd ${install_location}
                 echo "Configuring WINE and installing dependencies..."
-                WINEDEBUG=-all WINEPREFIX=${wine_location} WINEARCH=win64 winecfg &> /dev/null & show_spinner "Setting up WINE" $!
-                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q msxml3 &> /dev/null & show_spinner "Configuring MSXML3" $!
-                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dotnet461 &> /dev/null & show_spinner "Configuring .NET Framework" $!
-                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q corefonts &> /dev/null & show_spinner "Configuring COREFONTS" $!
-                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q gdiplus &> /dev/null & show_spinner "Configuring GDIPLUS" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} WINEARCH=win64 winecfg &> /dev/null & show_spinner "Configuring WINE" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q msxml3 &> /dev/null & show_spinner "Installing MSXML3" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dotnet461 &> /dev/null & show_spinner "Installing .NET Framework" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q corefonts &> /dev/null & show_spinner "Installing COREFONTS" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q gdiplus &> /dev/null & show_spinner "Installing GDIPLUS" $!
                 ln -s ${install_location} ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers
                 ln -s ${install_location}/config ${wine_location}/drive_c/users/${whoami}/Application\ Data/SpaceEngineersDedicated
-                echo "Initial setup complete."
+                echo "Initial setup complete"
 
                 #install and update steamcmd
                 echo "Installing and updating SteamCMD"
@@ -163,11 +163,11 @@ case "$1" in
         *)
                 if ps ax | grep -v grep | grep $procname > /dev/null
                 then
-                        echo "$service is running, not starting"
+                        echo "$screen_name is running, not starting"
                         exit
                 else
-                        echo "$service is not running, starting"
-                        screen -dmS $service -t $service $0 start
+                        echo "$screen_name is not running, starting"
+                        screen -dmS ${screen_name} -t ${screen_name} $0 start
                 fi
         ;;
 esac
