@@ -7,29 +7,31 @@ procname=SpaceEngineersDedicated.exe
 cd $HOME/spaceengineers
 WINEDEBUG=-all
 whoami=`whoami` #but who AM I, really?
+# Wine config
+wine_location=$HOME/.wine64
+
 case "$1" in
         start)
-                #login to steam and fetch the latest gamefiles
-                cd $HOME/spaceengineers
-                cd Steamcmd
-                ./steamcmd.sh +force_install_dir $HOME/.wine/drive_c/users/$whoami/Desktop/spaceengineers +login anonymous +app_update 298740 -verify +quit
-                cd ..
+                if is_wine_version_ok ;
+                then
+                    #login to steam and fetch the latest gamefiles
+                    cd $HOME/spaceengineers
+                    cd Steamcmd
+                    ./steamcmd.sh +force_install_dir ${wine_location}/drive_c/users/$whoami/Desktop/spaceengineers +login anonymous +app_update 298740 -verify +quit
+                    cd ..
 
-                #clear old binaries and get new ones
-                cd config/Saves/SEDSWorld
-                echo "Cleaning world of dead NPC entries - Credits to Andy_S of #space-engineers"
-                wget -q -O ../../worldcleaner.py https://github.com/deltaflyer4747/SE_Cleaner/raw/master/clean.py
-                python ../../worldcleaner.py
+                    #start the DS
+                    cd ${wine_location}/drive_c/users/$whoami/Desktop/spaceengineers/DedicatedServer
+                    WINEDEBUG=-all wine64 SpaceEngineersDedicated.exe -console
+                    logstamper=`date +%s`
 
-                #start the DS
-                cd $HOME/.wine/drive_c/users/$whoami/Desktop/spaceengineers/DedicatedServer
-                WINEDEBUG=-all wine SpaceEngineersDedicated.exe -console
-                logstamper=`date +%s`
-
-                #copy server world and log to backups and logs directories
-                cd ../config
-                mv SpaceEngineersDedicated.log logs/server-$logstamper.log
-                cp -rf Saves/SEDSWorld backups/world-$logstamper-svhalt
+                    #copy server world and log to backups and logs directories
+                    cd ../config
+                    mv SpaceEngineersDedicated.log logs/server-$logstamper.log
+                    cp -rf Saves/SEDSWorld backups/world-$logstamper-svhalt
+                 el
+                    echo "Wine version is not 4.0 or newer"
+                 fi
         ;;
         setup)  #run only once.
                 echo "Press enter to confirm complete wipe of your WINE's configuration directory. If you have installed anything under regular WINE and want to keep it, press Ctrl-C now!"
@@ -39,7 +41,7 @@ case "$1" in
                 echo "ARE YOU REALLY SURE?"
                 read things
                 echo "Wiping WINE installation."
-                rm -rf $HOME/.wine
+                rm -rf ${wine_location}
 
                 #grab steamcmd, make some directories.
                 mkdir $HOME/spaceengineers/config
@@ -56,11 +58,13 @@ case "$1" in
                 #configure our wine directory and make some symlinks
                 cd $HOME
                 echo "Configuring WINE and installing dependencies."
-                WINEDEBUG=-all WINEARCH=win32 winecfg > /dev/null
+                WINEDEBUG=-all WINEARCH=win64 winecfg > /dev/null
                 WINEDEBUG=-all winetricks -q msxml3 > /dev/null
-                WINEDEBUG=-all winetricks -q dotnet40 > /dev/null
-                ln -s $HOME/spaceengineers $HOME/.wine/drive_c/users/$whoami/Desktop/spaceengineers
-                ln -s $HOME/spaceengineers/config $HOME/.wine/drive_c/users/$whoami/Application\ Data/SpaceEngineersDedicated
+                WINEDEBUG=-all winetricks -q dotnet461 > /dev/null
+                WINEDEBUG=-all winetricks -q corefonts > /dev/null
+                WINEDEBUG=-all winetricks -q gdiplus > /dev/null
+                ln -s $HOME/spaceengineers ${wine_location}/drive_c/users/$whoami/Desktop/spaceengineers
+                ln -s $HOME/spaceengineers/config ${wine_location}/drive_c/users/$whoami/Application\ Data/SpaceEngineersDedicated
                 echo "Initial setup complete."
 
                 #install and update steamcmd
@@ -87,3 +91,17 @@ case "$1" in
                 fi
         ;;
 esac
+
+is_wine_version_ok() {
+    wine_version=$"{`wine64 --version`/wine-/}"
+    echo $"Found wine version ${wine_version}"
+    wine_major_version="${wine_version:0:1}";
+    result=false
+
+    if [[ ${wine_major_version} = "4" ]]
+    then
+        result=true
+    fi
+
+    return result
+}

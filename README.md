@@ -1,22 +1,19 @@
-# SEDS-Setup
+# SEDS-Setup-Revived
 
-### **PROJECT DISCONTINUED IN THE FACE OF SPACE ENGINEERS UPDATE 01.133 REQUIRING 64-BIT .NET 4.6.1**
-#### [Read more about that decision here.](<http://forum.keenswh.com/threads/7383675/>) Project will repoen and continue when an official Linux dedicated server releases.
+#### Works with Space Engineers version 1.189 (Survival Overhaul)
+
+This is a revived project for the original [SEDS-setup](https://github.com/DJArghlex/SEDS-Setup) as the original author has archived the project.
 
 ## Description
 SEDS-Setup a bash script for starting and configuring a Space Engineers Dedicated Server on a Linux machine inside GNU screen.
 
-[Report issues on the issues page. **MAKE SURE YOU LOOK THROUGH THEM FIRST.**](<https://github.com/ArghArgh200/SEDS-Setup/issues>) Someone's probably already posted a solution, or it's a known bug.
-
 ## Requirements
 
-    wine (1.7.30+)
-    winetricks
-    python-2.7
-    unzip 
+    wine (4.0+)
+    winetricks (20190310 or newer)
+    cabextract
     wget
     screen
-    crontab (optional)
 
 ## Usage
 
@@ -24,7 +21,7 @@ SEDS-Setup a bash script for starting and configuring a Space Engineers Dedicate
 
 	mkdir ~/spaceengineers
 	cd ~/spaceengineers
-	wget -O start.sh https://raw.githubusercontent.com/ArghArgh200/SEDS-Setup/master/start.sh
+	wget -O start.sh https://raw.githubusercontent.com/yoep/SEDS-Setup/master/start.sh
 	chmod +x start.sh
 	
 The script is hardcoded to put your server in ~/spaceengineers.
@@ -32,7 +29,7 @@ The script is hardcoded to put your server in ~/spaceengineers.
 ### Step two: Check your wine version.
 Run *wine --version* and also check if you have winetricks installed by running *which winetricks*
 
-If your wine version is not 1.7.30 or higher the script will not work properly and I will absolutely refuse to help you.
+If your wine version is not 4.0 or higher the script will not work properly and I will absolutely refuse to help you.
 
 ### Step three: Run the script's setup function
 
