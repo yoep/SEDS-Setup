@@ -109,7 +109,7 @@ case "$1" in
                 echo "Starting SpaceEngineersDedicated..."
                 echo "Check log ${log_location} for more info"
                 # Show the log in the console + log it immediately to a file
-                WINEPREFIX=${wine_location} wine64 SpaceEngineersDedicated.exe -console | tee ${log_location}
+                WINEPREFIX=${wine_location} wine64 SpaceEngineersDedicated.exe -noconsole -ignorelastsession -checkAlive | tee ${log_location}
                 echo "Server has been stopped"
         ;;
         setup)  #run only once.

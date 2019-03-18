@@ -88,7 +88,8 @@ This means that every 15 minutes that go by, backup the world.
 
 ## Known issues
 
-* Save files with worlds in, get stuck during loading
+* Creating new worlds doesn't work
+* Save files with planets in, get stuck during startup
 * IP address not being assigned to the dedicated server (workaround: restart the dedicated server)
 
 Credits to Andy_S and NolanSyKinsley of the #space-engineers IRC channel on Esper for their information.
