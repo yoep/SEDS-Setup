@@ -84,10 +84,6 @@ show_spinner() {
     echo ""
 }
 
-# Create installation directory and navigate to it
-create_install_dir
-cd ${install_location}
-
 # Check wine version
 if ! is_wine_version_ok ; then
     echo "ERROR: Wine version $(get_wine_version) is not 4.0 or newer"
@@ -123,6 +119,10 @@ case "$1" in
                 read things
                 echo "Wiping ${install_location}"
                 rm -rf ${install_location}/*
+                rm -rf ${wine_location}
+
+                # Create installation directory
+                create_install_dir
 
                 #grab steamcmd, make some directories.
                 create_dir ${install_location}/config
@@ -146,8 +146,6 @@ case "$1" in
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q gdiplus &> /dev/null & show_spinner "Installing GDIPLUS" $!
                 # The IP binding seems to go wrong sometimes with the default installed winhttp lib from wine
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q winhttp &> /dev/null & show_spinner "Installing WINHTTP" $!
-#                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dxvk96 &> /dev/null & show_spinner "Installing DXVK" $!
-#                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q vulkanrt &> /dev/null & show_spinner "Installing VULKANRT" $!
                 ln -s ${install_location} ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers
                 ln -s ${install_location}/config ${wine_location}/drive_c/users/${whoami}/Application\ Data/SpaceEngineersDedicated
                 echo "Initial setup complete"
@@ -158,6 +156,7 @@ case "$1" in
                 cd ${install_location}/Steamcmd/
                 ./steamcmd.sh +exit
                 ./steamcmd.sh +login anonymous +exit
+                echo ""
                 echo "Setup complete. Please place your server's .cfg file in ${install_location}/config/SpaceEngineers-Dedicated.cfg.  You'll need to edit it and change the <LoadWorld /> part to read: <LoadWorld>C:\users\\$whoami\Application Data\SpaceEngineersDedicated\Saves\SEDSWorld</LoadWorld>."
         ;;
         backupworld) #put an entry in your crontab pointing to this script with the first argument being 'backupworld'.
