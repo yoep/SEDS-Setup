@@ -147,9 +147,12 @@ case "$1" in
                 echo "Configuring WINE and installing dependencies..."
                 WINEDEBUG=-all WINEPREFIX=${wine_location} WINEARCH=win64 winecfg &> /dev/null & show_spinner "Configuring WINE" $!
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q msxml4 &> /dev/null & show_spinner "Installing MSXML4" $!
-                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dotnet461 &> /dev/null & show_spinner "Installing .NET Framework" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dotnet472 &> /dev/null & show_spinner "Installing .NET Framework" $!
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q corefonts &> /dev/null & show_spinner "Installing COREFONTS" $!
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q gdiplus &> /dev/null & show_spinner "Installing GDIPLUS" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q vcrun2015 &> /dev/null & show_spinner "Installing Visual 2015 C++" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q faudio &> /dev/null & show_spinner "Installing FAUDIO" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q d3dcompiler_47 &> /dev/null & show_spinner "Installing D3DCOMPILER_47" $!
                 # The IP binding seems to go wrong sometimes with the default installed winhttp lib from wine
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q winhttp &> /dev/null & show_spinner "Installing WINHTTP" $!
                 ln -s ${install_location} ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers
