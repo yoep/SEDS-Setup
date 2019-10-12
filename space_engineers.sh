@@ -42,6 +42,11 @@ create_dir() {
   fi
 }
 
+install_dependency() {
+  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q $0 &>/dev/null &
+  show_spinner "Installing $1" $!
+}
+
 is_wine_version_ok() {
   wine_version=$(get_wine_version)
   echo "Found wine version ${wine_version}"
@@ -137,28 +142,21 @@ setup) #run only once.
   #auto update winetricks
   auto_update_winetricks
 
-  #configure our wine directory and make some symlinks
+  #configure our wine directory
   cd ${install_location}
   echo "Configuring WINE and installing dependencies..."
   WINEDEBUG=-all WINEPREFIX=${wine_location} WINEARCH=win64 winecfg &>/dev/null &
   show_spinner "Configuring WINE" $!
-  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q msxml4 &>/dev/null &
-  show_spinner "Installing MSXML4" $!
-  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dotnet472 &>/dev/null &
-  show_spinner "Installing .NET Framework" $!
-  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q corefonts &>/dev/null &
-  show_spinner "Installing COREFONTS" $!
-  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q gdiplus &>/dev/null &
-  show_spinner "Installing GDIPLUS" $!
-  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q vcrun2015 &>/dev/null &
-  show_spinner "Installing Visual 2015 C++" $!
-  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q faudio &>/dev/null &
-  show_spinner "Installing FAUDIO" $!
-  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q d3dcompiler_47 &>/dev/null &
-  show_spinner "Installing D3DCOMPILER_47" $!
+  #install dependencies
+  install_dependency msxml4 "MSXML4"
+  install_dependency dotnet472 ".NET Framework"
+  install_dependency corefonts "COREFONTS"
+  install_dependency gdiplus "GDIPLUS"
+  install_dependency vcrun2015 "Visual 2015 C++"
+  install_dependency faudio "FAUDIO"
+  install_dependency d3dcompiler_47 "D3DCOMPILER_47"
   # The IP binding seems to go wrong sometimes with the default installed winhttp lib from wine
-  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q winhttp &>/dev/null &
-  show_spinner "Installing WINHTTP" $!
+  install_dependency winhttp "WINHTTP"
   ln -s ${install_location} ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers
   ln -s ${install_location}/config ${wine_location}/drive_c/users/${whoami}/Application\ Data/SpaceEngineersDedicated
   echo "Initial setup complete"
@@ -170,7 +168,8 @@ setup) #run only once.
   ./steamcmd.sh +exit
   ./steamcmd.sh +login anonymous +exit
   echo ""
-  echo "Setup complete. Please place your server's .cfg file in ${install_location}/config/SpaceEngineers-Dedicated.cfg.  You'll need to edit it and change the <LoadWorld /> part to read: <LoadWorld>C:\users\\$whoami\Application Data\SpaceEngineersDedicated\Saves\SEDSWorld</LoadWorld>."
+  echo "Setup complete. Please place your server's .cfg file in ${install_location}/config/SpaceEngineers-Dedicated.cfg.
+  You'll need to edit it and change the <LoadWorld /> part to read: <LoadWorld>C:\users\\${whoami}\Application Data\SpaceEngineersDedicated\Saves\\${world_name}</LoadWorld>."
   ;;
 backupworld) #put an entry in your crontab pointing to this script with the first argument being 'backupworld'.
   logstampworld=$(date +%s)
