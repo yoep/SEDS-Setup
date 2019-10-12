@@ -16,6 +16,15 @@ screen_name=space_engineers
 procname=SpaceEngineersDedicated.exe
 whoami=`whoami` #but who AM I, really?
 
+auto_update_winetricks() {
+  echo "Updating winetricks version..."
+  sudo winetricks --self-update
+
+  if ! is_winetricks_version_ok; then
+    echo "Failed to update winetricks to version 20190912 or newer"
+  fi
+}
+
 create_install_dir () {
     if [[ ! -d "${install_location}" ]]
     then
@@ -90,12 +99,6 @@ if ! is_wine_version_ok ; then
     exit 1
 fi
 
-# Check winetricks version
-if ! is_winetricks_version_ok ; then
-    echo "ERROR: Winetricks version $(get_winetricks_version) is not 20190912 or newer"
-    exit 1
-fi
-
 case "$1" in
         start)
                 #login to steam and fetch the latest gamefiles
@@ -136,6 +139,9 @@ case "$1" in
                 wget -q -O steamcmd_linux.tar.gz https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
                 tar -xzf steamcmd_linux.tar.gz
 
+                #auto update winetricks
+                auto_update_winetricks
+
                 #configure our wine directory and make some symlinks
                 cd ${install_location}
                 echo "Configuring WINE and installing dependencies..."
@@ -170,6 +176,11 @@ case "$1" in
                         echo "$screen_name is running, not starting"
                         exit
                 else
+                        if [[ !${install_location} ]]; then
+                          echo "Space Engineers Dedicated Server is not installed"
+                          exit 1;
+                        fi
+
                         echo "$screen_name is not running, starting"
                         screen -dmS ${screen_name} -t ${screen_name} $0 start
                 fi
