@@ -1,6 +1,6 @@
 # SEDS-Setup-Revived
 #### Space Engineers Dedicated Server
-#### Works with Space Engineers version 1.189 (Survival Overhaul)
+#### Works with Space Engineers version 1.192 (Economy Update)
 
 This is a revived project for the original [SEDS-setup](https://github.com/DJArghlex/SEDS-Setup) as the original author has archived the project.
 
