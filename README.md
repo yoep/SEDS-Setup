@@ -1,5 +1,5 @@
 # SEDS-Setup-Revived
-
+#### Space Engineers Dedicated Server
 #### Works with Space Engineers version 1.189 (Survival Overhaul)
 
 This is a revived project for the original [SEDS-setup](https://github.com/DJArghlex/SEDS-Setup) as the original author has archived the project.
@@ -10,7 +10,7 @@ SEDS-Setup a bash script for starting and configuring a Space Engineers Dedicate
 ## Requirements
 
     wine (4.0+)
-    winetricks (20190310 or newer)
+    winetricks (20190912 or newer)
     cabextract
     winbind
     wget

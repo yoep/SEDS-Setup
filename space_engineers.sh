@@ -4,7 +4,7 @@
 # **************************
 # Installation config
 install_location=/opt/space_engineers
-world_name=TFoS
+world_name=YourWorldName
 # Wine config
 wine_location=${install_location}/.wine64
 # Screen config
@@ -37,7 +37,7 @@ create_dir () {
 
 is_wine_version_ok () {
     wine_version=$(get_wine_version)
-    echo $"Found wine version ${wine_version}"
+    echo "Found wine version ${wine_version}"
     numeric_wine_version="${wine_version//.}";
 
     if [[ ${numeric_wine_version} -ge 40 ]]
@@ -52,7 +52,7 @@ is_winetricks_version_ok () {
     winetricks_version=$(get_winetricks_version)
     echo "Found winetricks version ${winetricks_version}"
 
-    if [[ ${winetricks_version} -ge 20190310 ]]
+    if [[ ${winetricks_version} -ge 20190912 ]]
     then
         return 0
     fi
@@ -92,7 +92,7 @@ fi
 
 # Check winetricks version
 if ! is_winetricks_version_ok ; then
-    echo "ERROR: Winetricks version $(get_winetricks_version) is not 20190310 or newer"
+    echo "ERROR: Winetricks version $(get_winetricks_version) is not 20190912 or newer"
     exit 1
 fi
 
@@ -140,7 +140,7 @@ case "$1" in
                 cd ${install_location}
                 echo "Configuring WINE and installing dependencies..."
                 WINEDEBUG=-all WINEPREFIX=${wine_location} WINEARCH=win64 winecfg &> /dev/null & show_spinner "Configuring WINE" $!
-                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q msxml3 &> /dev/null & show_spinner "Installing MSXML3" $!
+                WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q msxml4 &> /dev/null & show_spinner "Installing MSXML4" $!
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q dotnet461 &> /dev/null & show_spinner "Installing .NET Framework" $!
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q corefonts &> /dev/null & show_spinner "Installing COREFONTS" $!
                 WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q gdiplus &> /dev/null & show_spinner "Installing GDIPLUS" $!
