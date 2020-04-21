@@ -150,11 +150,11 @@ setup) #run only once.
   #install dependencies
   install_dependency msxml4 "MSXML4"
   install_dependency dotnet472 ".NET Framework"
-  install_dependency corefonts "COREFONTS"
-  install_dependency gdiplus "GDIPLUS"
+  install_dependency vcrun2013 "Visual 2013 C++"
   install_dependency vcrun2015 "Visual 2015 C++"
+  install_dependency vcrun2017 "Visual 2017 C++"
+  install_dependency corefonts "COREFONTS"
   install_dependency faudio "FAUDIO"
-  install_dependency d3dcompiler_47 "D3DCOMPILER_47"
   # The IP binding seems to go wrong sometimes with the default installed winhttp lib from wine
   install_dependency winhttp "WINHTTP"
   ln -s ${install_location} ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers
