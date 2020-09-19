@@ -118,11 +118,12 @@ setup) #run only once.
   # Create installation directory
   create_install_dir
 
-  #grab steamcmd, make some directories.
+  #grab steamcmd and make some directories
   create_dir ${install_location}/config
   create_dir ${install_location}/client
   create_dir ${install_location}/config/backups
   create_dir ${install_location}/config/logs
+  create_dir ${install_location}/config/Saves
   rm -rf ${install_location}/Steamcmd
   mkdir -p ${install_location}/Steamcmd
   cd ${install_location}/Steamcmd
