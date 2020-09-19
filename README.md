@@ -89,7 +89,6 @@ This means that every 15 minutes that go by, backup the world.
 ## Known issues
 
 * Creating new worlds doesn't work
-* Planets are currently not working (dedicated server won't start)
 * IP address not being assigned to the dedicated server (workaround: restart the dedicated server)
 
 Credits to Andy_S and NolanSyKinsley of the #space-engineers IRC channel on Esper for their information.
