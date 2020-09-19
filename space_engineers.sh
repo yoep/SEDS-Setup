@@ -34,7 +34,7 @@ create_dir() {
 }
 
 install_dependency() {
-  WINEDEBUG=-all WINEPREFIX=${wine_location} winetricks -q $0 &>/dev/null &
+  WINEPREFIX=${wine_location} winetricks -q $0 &>/dev/null &
   show_spinner "Installing $1" $!
 }
 
@@ -75,7 +75,7 @@ show_spinner() {
   spin='-\|/'
   i=0
   while kill -0 $2 2>/dev/null; do
-    i=(i + 1) % 4
+    i=$(((i + 1) % 4))
     printf "\r$1 ${spin:$i:1}"
     sleep .1
   done
@@ -94,7 +94,7 @@ case "$1" in
 start)
   #login to steam and fetch the latest gamefiles
   cd ${install_location}/Steamcmd
-  ./steamcmd.sh +force_install_dir ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers +login anonymous +app_update 298740 -verify +quit
+  ./steamcmd.sh +@sSteamCmdForcePlatformType windows +force_install_dir ${wine_location}/drive_c/users/${whoami}/Desktop/spaceengineers +login anonymous +app_update 298740 -verify +quit
   cd ..
 
   #start the DS
@@ -153,7 +153,7 @@ setup) #run only once.
   #run twice because the first time we need to make steamcmd download its files before attempting a login
   cd ${install_location}/Steamcmd/
   ./steamcmd.sh +exit
-  ./steamcmd.sh +login anonymous +exit
+  ./steamcmd.sh +@sSteamCmdForcePlatformType windows +login anonymous +exit
   echo ""
   echo "Setup complete. Please place your server's .cfg file in ${install_location}/config/SpaceEngineers-Dedicated.cfg.
   You'll need to edit it and change the <LoadWorld /> part to read: <LoadWorld>C:\users\\${whoami}\Application Data\SpaceEngineersDedicated\Saves\\${world_name}</LoadWorld>."
