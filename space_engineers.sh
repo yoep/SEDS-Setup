@@ -16,15 +16,6 @@ screen_name=space_engineers
 procname=SpaceEngineersDedicated.exe
 whoami=$(whoami)
 
-auto_update_winetricks() {
-  echo "Updating winetricks version..."
-  sudo winetricks --self-update
-
-  if ! is_winetricks_version_ok; then
-    echo "Failed to update winetricks to version 20190912 or newer"
-  fi
-}
-
 create_install_dir() {
   if [[ ! -d "${install_location}" ]]; then
     echo "Creating installation directory ${install_location}..."
@@ -52,7 +43,7 @@ is_wine_version_ok() {
   echo "Found wine version ${wine_version}"
   numeric_wine_version="${wine_version//./}"
 
-  if [[ ${numeric_wine_version} -ge 40 ]]; then
+  if [[ ${numeric_wine_version} -ge 50 ]]; then
     return 0
   fi
 
@@ -84,7 +75,7 @@ show_spinner() {
   spin='-\|/'
   i=0
   while kill -0 $2 2>/dev/null; do
-    i=$(((i + 1) % 4))
+    i=(i + 1) % 4
     printf "\r$1 ${spin:$i:1}"
     sleep .1
   done
@@ -95,7 +86,7 @@ show_spinner() {
 
 # Check wine version
 if ! is_wine_version_ok; then
-  echo "ERROR: Wine version $(get_wine_version) is not 4.0 or newer"
+  echo "ERROR: Wine version $(get_wine_version) is not 5.0 or newer"
   exit 1
 fi
 
@@ -139,9 +130,6 @@ setup) #run only once.
   wget -q -O steamcmd_linux.tar.gz https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
   tar -xzf steamcmd_linux.tar.gz
 
-  #auto update winetricks
-  auto_update_winetricks
-
   #configure our wine directory
   cd ${install_location}
   echo "Configuring WINE and installing dependencies..."
@@ -151,7 +139,6 @@ setup) #run only once.
   install_dependency msxml4 "MSXML4"
   install_dependency dotnet472 ".NET Framework"
   install_dependency vcrun2013 "Visual 2013 C++"
-  install_dependency vcrun2015 "Visual 2015 C++"
   install_dependency vcrun2017 "Visual 2017 C++"
   install_dependency corefonts "COREFONTS"
   install_dependency faudio "FAUDIO"
